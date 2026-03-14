@@ -35,3 +35,12 @@ out/
 
 ### VS Code ###
 .vscode/
+
+/build
+/.gradle
+/node_modules
+*.log
+*.class
+.DS_Store
+
+!gradle/wrapper/gradle-wrapper.jar

@@ -17,4 +17,16 @@ public class UserService {
         return userMapper.findAll();
     }
 
+    public void addUser(User user) {
+        userMapper.insertUser(user);
+    }
+
+    public void deleteUser(Long id) {
+        userMapper.deleteUser(id);
+    }
+
+    public void updateUser(User user) {
+        userMapper.updateUser(user);
+    }
+
 }

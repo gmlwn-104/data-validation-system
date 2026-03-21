@@ -3,6 +3,7 @@ import { Container, Typography, Button, TextField, Card, CardContent, Snackbar, 
 
 import UserTable from "../components/UserTable";
 import { getUsers, addUser, deleteUser } from "../api/userApi";
+import TablePagination from "@mui/material/TablePagination";
 
 function UsersPage() {
 
@@ -12,6 +13,10 @@ function UsersPage() {
   const [editId, setEditId] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [keyword, setKeyword] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [total, setTotal] = useState(0);
 
   const handleEdit = (user) => {
     setEditId(user.id);
@@ -51,10 +56,14 @@ const handleCancel = () => {
 
   useEffect(() => {
     loadUsers();
-  }, []);
+  }, [page, rowsPerPage]);
 
   const loadUsers = () => {
-    getUsers().then(data => setUsers(data));
+    getUsers(keyword, page, rowsPerPage).then(res => {
+
+    setUsers(res.content || []);
+    setTotal(res.totalElements || 0);
+  });
   };
 
   const handleAddUser = () => {
@@ -86,6 +95,37 @@ const handleCancel = () => {
       <Typography variant="h4" sx={{ mt: 4, mb: 2 }}>
         User Management
       </Typography>
+
+      <Card sx={{ mb: 2 }}>
+  <CardContent style={{ display: "flex", gap: "10px" }}>
+
+    <TextField
+      label="Search (name)"
+      size="small"
+      value={keyword}
+      onChange={(e) => setKeyword(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") loadUsers();
+      }}
+    />
+
+    <Button variant="contained" onClick={loadUsers}>
+      검색
+    </Button>
+
+    <Button
+      variant="outlined"
+      onClick={() => {
+        setKeyword("");
+        setPage(0);
+        loadUsers();
+      }}
+    >
+      전체
+    </Button>
+
+  </CardContent>
+</Card>
 
       <Card sx={{ mb: 4 }}>
   <CardContent>
@@ -134,6 +174,17 @@ const handleCancel = () => {
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
+      <TablePagination
+      component="div"
+      count={total}
+      page={page}
+      onPageChange={(event, newPage) => setPage(newPage)}
+      rowsPerPage={rowsPerPage}
+      onRowsPerPageChange={(event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+      }}
+    />
 
     <Snackbar
     open={snackbarOpen}

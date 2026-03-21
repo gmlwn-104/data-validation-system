@@ -28,7 +28,7 @@ function UserTable({ users, onEdit, onDelete }) {
       </TableHead>
 
       <TableBody>
-        {users.map(user => (
+        {(users || []).map(user => (
           <TableRow key={user.id}>
             <TableCell>{user.name}</TableCell>
             <TableCell>{user.age}</TableCell>

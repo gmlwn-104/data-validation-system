@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
 
+import com.example.demo.dto.PageResponse;
 import com.example.demo.dto.User;
 import com.example.demo.service.UserService;
 
@@ -21,8 +22,12 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users")
-    public List<User> getUsers() {
-        return userService.getUsers();
+    public PageResponse<User> getUsers(
+        @RequestParam(defaultValue = "") String keyword,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size
+    ) {
+        return userService.getUsers(keyword, page, size);
     }
 
     @PostMapping("/users")

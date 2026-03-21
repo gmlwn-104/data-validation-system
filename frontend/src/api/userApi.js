@@ -1,7 +1,11 @@
+import axios from "axios";
+
 const API_URL = "http://localhost:8080/users";
 
-export const getUsers = () => {
-  return fetch(API_URL).then(res => res.json());
+export const getUsers = (keyword = "", page = 0, size = 10) => {
+  return axios
+    .get(`/api/users?keyword=${keyword}&page=${page}&size=${size}`)
+    .then(res => res.data);
 };
 
 export const addUser = (user) => {

@@ -8,7 +8,7 @@ function Dashboard() {
   useEffect(() => {
     fetch("http://localhost:8080/users")
       .then(res => res.json())
-      .then(data => setUserCount(data.length));
+      .then(data => setUserCount(data.totalElements));
   }, []);
 
   return (

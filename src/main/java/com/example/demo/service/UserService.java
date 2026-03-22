@@ -3,6 +3,7 @@ package com.example.demo.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.dto.PageResponse;
@@ -42,6 +43,14 @@ public class UserService {
         int total = userMapper.countUsers(keyword);
 
         return new PageResponse<>(list, total);
+    }
+
+    public int countUsersDashboard() {
+        return userMapper.countUsersDashboard();
+    }
+
+    public List<Map<String, Object>> getUserTrend() {
+        return userMapper.selectUserTrend();
     }
 
 }

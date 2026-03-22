@@ -2,6 +2,9 @@ package com.example.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +47,17 @@ public class UserController {
     public void updateUser(@PathVariable Long id, @RequestBody User user) {
         user.setId(id);
         userService.updateUser(user);
+    }
+    
+    @GetMapping("/users/count")
+    public int getCountUserDashboard() {
+        int userDashboardCnt = userService.countUsersDashboard();
+        return userDashboardCnt;
+    }
+    
+    @GetMapping("/users/trend")
+    public List<Map<String, Object>> getUserTrend() {
+        return userService.getUserTrend();
     }
     
 }

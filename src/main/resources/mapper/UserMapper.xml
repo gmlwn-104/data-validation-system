@@ -53,4 +53,21 @@
         WHERE name LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
+    <!-- 대시보드 사용자 수 -->
+    <select id="countUsersDashboard" resultType="int">
+        SELECT COUNT(*)
+        FROM user
+    </select>
+
+    <!-- 대시보드 그래프 추이 -->
+    <select id="selectUserTrend" resultType="map">
+        SELECT 
+            DATE(created_at) AS name,
+            COUNT(*) AS users
+        FROM user
+        WHERE created_at <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL 7 DAY)
+        GROUP BY DATE(created_at)
+        ORDER BY DATE(created_at)
+    </select>
+
 </mapper>
